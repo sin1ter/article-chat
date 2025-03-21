@@ -10,7 +10,8 @@ class ArticleCategory(BaseModel):
     description = models.TextField()
 
     class Meta:
-        verbose_name = "Article Categories"
+        verbose_name = "Category"
+        verbose_name_plural = "Categories"
 
     def __str__(self):
         return self.name
@@ -22,7 +23,8 @@ class Article(BaseModel):
     content = models.TextField()
 
     class Meta:
-        verbose_name = "Articles"
+        verbose_name = "Article"
+        verbose_name_plural = "Articles"
 
     def __str__(self):
         return self.title

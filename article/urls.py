@@ -10,5 +10,5 @@ router.register(r"categories", ArticleCategoryViewSet, basename="categories")
 router.register(r"article", ArticleViewSet, basename="article")
 
 urlpatterns = [
-    path("", include(router.urls)),  # ✅ This will include all router URLs
+    path("", include(router.urls)),
 ]

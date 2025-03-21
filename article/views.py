@@ -1,5 +1,5 @@
 from rest_framework import viewsets, permissions
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from .serializers import ArticleCategorySerializer, ArticleSerializer
 from .models import ArticleCategory, Article
 from authentications.permissions import IsOwnerOrReadOnly, AdminOrReadOnly
@@ -25,7 +25,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
     serializer_class = ArticleSerializer
     ordering_fields = ['title']
     ordering = ['id']
-    parser_classes = [MultiPartParser, FormParser]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
     permission_classes = [IsOwnerOrReadOnly]
 
     def perform_create(self, serializer):
