@@ -59,3 +59,22 @@ class ArticleSerializer(serializers.ModelSerializer):
 
         return article
 
+    def update(self, instance, validated_data):
+        request = self.context.get('request')
+        uploaded_images = request.FILES.getlist('uploaded_images')  # Extract images properly
+
+        print(f"Received {len(uploaded_images)} images for update")
+
+        # Update other fields
+        instance.category = validated_data.get('category', instance.category)
+        instance.title = validated_data.get('title', instance.title)
+        instance.content = validated_data.get('content', instance.content)
+        instance.save()
+
+        # Handle image updates
+        if uploaded_images:
+            instance.images.all().delete()  # Delete only if new images are uploaded
+            for image in uploaded_images:
+                ArticleImage.objects.create(article=instance, image=image)
+
+        return instance
