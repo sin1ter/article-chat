@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'authentications',
     'article',
     'support',
+    'chat',
 ]
 
 MIDDLEWARE = [
