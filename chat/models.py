@@ -4,7 +4,7 @@ from authentications.models import User
 from support.models import BaseModel
 
 class ChatSessions(BaseModel):
-    name = models.CharField(max_length=256, blank=True, null=True)
+    name = models.CharField(max_length=1000)
     participants = models.ManyToManyField(User, related_name="chat_sessions")
     room_id = models.CharField(max_length=256, unique=True, default=uuid.uuid4)
     is_group = models.BooleanField(default=False)
@@ -18,9 +18,12 @@ class ChatSessions(BaseModel):
                 violation_error_message="A one-on-one chat already exists."
             )
         ]
+    verbose_name = "Chat Session"
 
     def __str__(self):
-        return self.name
+        participant_names = ", ".join(user.email for user in self.participants.all())
+        return f"{participant_names} - {self.room_id}"
+
 
 class ChatLog(BaseModel):
     room = models.ForeignKey(

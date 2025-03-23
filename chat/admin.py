@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import ChatSessions, ChatLog
+
+admin.site.register(ChatSessions)
+admin.site.register(ChatLog)
