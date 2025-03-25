@@ -42,12 +42,13 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework_simplejwt',
+    'channels',
+    'django_extensions',
 
     'authentications',
     'article',
     'support',
     'support_notify',
-    'chat',
 ]
 
 MIDDLEWARE = [
@@ -155,5 +156,4 @@ SIMPLE_JWT = {
 
 
 AUTH_USER_MODEL = "authentications.User"
-
 
