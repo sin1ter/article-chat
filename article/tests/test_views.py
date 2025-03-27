@@ -16,6 +16,7 @@ class ArticleAPITestCase(APITestCase):
         url = reverse("article-list")
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
+        assert False
 
     def test_create_article(self):
         url = reverse("article-list")
