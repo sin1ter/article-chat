@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'daphne',
     'django.contrib.staticfiles',
     'pytest_django',
     'drf_spectacular',
@@ -49,7 +50,10 @@ INSTALLED_APPS = [
     'article',
     'support',
     'support_notify',
+    'chat',
 ]
+
+ASGI_APPLICATION = "core.asgi.application"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -157,3 +161,8 @@ SIMPLE_JWT = {
 
 AUTH_USER_MODEL = "authentications.User"
 
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    }
+}
