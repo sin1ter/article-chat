@@ -29,7 +29,6 @@ urlpatterns = [
 
     path('api/v1/accounts/', include('authentications.urls')),
     path('api/v1/articles/', include('article.urls')),
-    path('api/v1/chat/', include('chat.urls')),
 
     # Swagger
     # OpenAPI Schema

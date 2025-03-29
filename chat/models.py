@@ -1,44 +1,32 @@
-import uuid
 from django.db import models
+from django.conf import settings
+
 from authentications.models import User
-from support.models import BaseModel
 
-class ChatSessions(BaseModel):
-    name = models.CharField(max_length=1000)
-    participants = models.ManyToManyField(User, related_name="chat_sessions")
-    room_id = models.CharField(max_length=256, unique=True, default=uuid.uuid4)
-    is_group = models.BooleanField(default=False)
+class ChatRoom(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    users = models.ManyToManyField(User, related_name="chatrooms")  # Users in chatroom
 
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=['room_id'],
-                name="unique_one_to_one_chat",
-                condition=models.Q(is_group=False),
-                violation_error_message="A one-on-one chat already exists."
-            )
-        ]
-    verbose_name = "Chat Session"
+    def add_user(self, user):
+        """Add a user to the chatroom."""
+        self.users.add(user)
+
+    def remove_user(self, user):
+        """Remove a user from the chatroom."""
+        self.users.remove(user)
 
     def __str__(self):
-        participant_names = ", ".join(user.email for user in self.participants.all())
-        return f"{participant_names} - {self.room_id}"
+        return self.name
 
 
-class ChatLog(BaseModel):
-    room = models.ForeignKey(
-        ChatSessions,
-        on_delete=models.CASCADE,
-        related_name="chat_logs"
-    )
-    user = models.ForeignKey(
-        User,
-        on_delete=models.PROTECT
-    )
-    content = models.CharField(max_length=1024, blank=True)
-    is_read = models.BooleanField(default=False)
+class Message(models.Model):
+    room = models.ForeignKey(ChatRoom, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f"{self.user.username}: {self.content[:30]} ({self.timestamp})"
+    class Meta:
+        ordering = ("timestamp",)
 
+    def __str__(self):
+        return f"{self.user.email}: {self.content[:20]}"

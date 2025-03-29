@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-tqtyuv@pd2r0zzx=@v_jdvmi$-_&d3d7w4%=fh_90&zlo7sh#6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -36,18 +36,24 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'daphne',
     'django.contrib.staticfiles',
     'pytest_django',
     'drf_spectacular',
 
     'rest_framework',
     'rest_framework_simplejwt',
+    'channels',
+    'django_extensions',
 
     'authentications',
     'article',
     'support',
+    'support_notify',
     'chat',
 ]
+
+ASGI_APPLICATION = "core.asgi.application"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -155,4 +161,8 @@ SIMPLE_JWT = {
 
 AUTH_USER_MODEL = "authentications.User"
 
-
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    }
+}
