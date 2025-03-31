@@ -31,13 +31,3 @@ class Message(BaseModel):
 
     def __str__(self):
         return f"{self.user.email}: {self.content[:20]}"
-
-class test(BaseModel):
-    test = models.CharField(max_length=256)
-
-    class Meta:
-        verbose_name = "Test"
-        verbose_name_plural = "Tests"
-
-    def __str__(self):
-        return self.test
