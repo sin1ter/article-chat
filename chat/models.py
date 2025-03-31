@@ -1,9 +1,10 @@
 from django.db import models
 from django.conf import settings
 
+from support.models import BaseModel, CompressedImageField
 from authentications.models import User
 
-class ChatRoom(models.Model):
+class ChatRoom(BaseModel):
     name = models.CharField(max_length=255, unique=True)
     users = models.ManyToManyField(User, related_name="chatrooms")  # Users in chatroom
 
@@ -19,7 +20,7 @@ class ChatRoom(models.Model):
         return self.name
 
 
-class Message(models.Model):
+class Message(BaseModel):
     room = models.ForeignKey(ChatRoom, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
